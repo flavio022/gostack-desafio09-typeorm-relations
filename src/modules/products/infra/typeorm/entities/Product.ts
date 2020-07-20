@@ -13,12 +13,21 @@ import OrdersProducts from '@modules/orders/infra/typeorm/entities/OrdersProduct
 class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   name: string;
+
   @Column()
   price: number;
+
   @Column({ type: 'int' })
   quantity: number;
+
+  @OneToMany(() => OrdersProducts, ordersProducts => ordersProducts.product, {
+    cascade: ['insert'],
+    eager: true,
+  })
+  order_products: OrdersProducts[];
 
   @CreateDateColumn()
   created_at: Date;
